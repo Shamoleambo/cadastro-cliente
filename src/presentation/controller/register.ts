@@ -13,7 +13,7 @@ export class RegisterController {
     this.addClient = addClient
   }
 
-  handle (httpRequest: HttpRequest): HttpResponse {
+  async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const requiredParams = ['name', 'cpf', 'birthDate']
       for (const param of requiredParams) {
@@ -26,7 +26,7 @@ export class RegisterController {
       const isValid = this.cpfValidator.checkValidity(cpf)
       if (!isValid) return invalidCpf()
 
-      this.addClient({ name, cpf, birthDate })
+      await this.addClient({ name, cpf, birthDate })
     } catch (error) {
       return serverError()
     }

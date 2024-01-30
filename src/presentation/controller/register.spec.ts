@@ -46,7 +46,7 @@ const makeSut = (): SutTypes => {
 }
 
 describe('RegisterController', () => {
-  test('should return 400 if no name is provided', () => {
+  test('should return 400 if no name is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -55,12 +55,12 @@ describe('RegisterController', () => {
       }
     }
 
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('name'))
   })
 
-  test('should return 400 no CPF is provided', () => {
+  test('should return 400 no CPF is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -69,12 +69,12 @@ describe('RegisterController', () => {
       }
     }
 
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('cpf'))
   })
 
-  test('should return 400 if no birthDate is provided', () => {
+  test('should return 400 if no birthDate is provided', async () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
@@ -83,12 +83,12 @@ describe('RegisterController', () => {
       }
     }
 
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
     expect(httpResponse.body).toEqual(new MissingParamError('birthDate'))
   })
 
-  test('should return 422 if an invalid CPF is provided', () => {
+  test('should return 422 if an invalid CPF is provided', async () => {
     const { sut, cpfValidatorStub } = makeSut()
     jest.spyOn(cpfValidatorStub, 'checkValidity').mockReturnValueOnce(false)
 
@@ -100,12 +100,12 @@ describe('RegisterController', () => {
       }
     }
 
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(422)
     expect(httpResponse.body).toEqual(new Error('Invalid CPF'))
   })
 
-  test('should call checkValidity with correct param', () => {
+  test('should call checkValidity with correct param', async () => {
     const { sut, cpfValidatorStub } = makeSut()
     const checkValiditySpy = jest.spyOn(cpfValidatorStub, 'checkValidity')
 
@@ -116,11 +116,11 @@ describe('RegisterController', () => {
         birthDate: '01/01/1994'
       }
     }
-    sut.handle(httpRequest)
+    await sut.handle(httpRequest)
     expect(checkValiditySpy).toHaveBeenCalledWith(httpRequest.body.cpf)
   })
 
-  test('should return 500 if AddClient throws', () => {
+  test('should return 500 if AddClient throws', async () => {
     const { sut, addClientStub } = makeSut()
     jest.spyOn(addClientStub, 'add').mockImplementationOnce(async () => {
       return await new Promise((resolve, reject) => { reject(new Error('Database Error')) })
@@ -133,7 +133,7 @@ describe('RegisterController', () => {
         birthDate: '01/01/1994'
       }
     }
-    const httpResponse = sut.handle(httpRequest)
+    const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
   })
