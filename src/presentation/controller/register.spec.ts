@@ -137,4 +137,23 @@ describe('RegisterController', () => {
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
   })
+
+  test('should return 201 if client is registered', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        name: 'valid_name',
+        cpf: '999.999.999-99',
+        birthDate: '01/01/1994'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(201)
+    expect(httpResponse.body).toEqual({
+      id: 'fake_id',
+      name: 'fake_name',
+      cpf: '111.111.111-11',
+      birthDate: '01/01/1994'
+    })
+  })
 })
