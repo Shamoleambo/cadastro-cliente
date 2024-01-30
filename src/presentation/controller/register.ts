@@ -4,7 +4,7 @@ export class RegisterController {
   handle (httpRequest: HttpRequest): HttpResponse {
     return {
       statusCode: 400,
-      body: new Error('Invalid Name')
+      body: new Error('Missing Param: name')
     }
   }
 }
