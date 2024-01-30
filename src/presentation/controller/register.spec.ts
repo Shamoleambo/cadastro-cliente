@@ -1,22 +1,48 @@
 import type { CpfValidator } from '../protocols/cpf-validator'
+import type { AddClient, AddClientModel } from '../../domain/useCases/add-client'
+import type { ClientModel } from '../../domain/models/client-model'
 import { RegisterController } from './register'
 import { MissingParamError } from '../../errors/missing-param-error'
+import { ServerError } from '../../errors/server-error'
 
-interface SutTypes {
-  sut: RegisterController
-  cpfValidatorStub: CpfValidator
+const makeAddClientStub = (): AddClient => {
+  class AddClientStub implements AddClient {
+    async add (client: AddClientModel): Promise<ClientModel> {
+      const fakeClient = {
+        id: 'fake_id',
+        name: 'fake_name',
+        cpf: '111.111.111-11',
+        birthDate: '01/01/1994'
+      }
+
+      return fakeClient
+    }
+  }
+
+  return new AddClientStub()
 }
 
-const makeSut = (): SutTypes => {
+const makeCpfValidatorStub = (): CpfValidator => {
   class CpfValidatorStub implements CpfValidator {
     checkValidity (cpf: string): boolean {
       return true
     }
   }
 
-  const cpfValidatorStub = new CpfValidatorStub()
-  const sut = new RegisterController(cpfValidatorStub)
-  return { sut, cpfValidatorStub }
+  return new CpfValidatorStub()
+}
+
+interface SutTypes {
+  sut: RegisterController
+  cpfValidatorStub: CpfValidator
+  addClientStub: AddClient
+}
+
+const makeSut = (): SutTypes => {
+  const addClientStub = makeAddClientStub()
+  const cpfValidatorStub = makeCpfValidatorStub()
+  const sut = new RegisterController(cpfValidatorStub, addClientStub)
+  return { sut, cpfValidatorStub, addClientStub }
 }
 
 describe('RegisterController', () => {
@@ -92,5 +118,23 @@ describe('RegisterController', () => {
     }
     sut.handle(httpRequest)
     expect(checkValiditySpy).toHaveBeenCalledWith(httpRequest.body.cpf)
+  })
+
+  test('should return 500 if AddClient throws', () => {
+    const { sut, addClientStub } = makeSut()
+    jest.spyOn(addClientStub, 'add').mockImplementationOnce(async () => {
+      return await new Promise((resolve, reject) => { reject(new Error('Database Error')) })
+    })
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        cpf: '999.999.999-00',
+        birthDate: '01/01/1994'
+      }
+    }
+    const httpResponse = sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(500)
+    expect(httpResponse.body).toEqual(new ServerError())
   })
 })
