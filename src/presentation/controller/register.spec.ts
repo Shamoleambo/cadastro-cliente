@@ -78,4 +78,19 @@ describe('RegisterController', () => {
     expect(httpResponse.statusCode).toBe(422)
     expect(httpResponse.body).toEqual(new Error('Invalid CPF'))
   })
+
+  test('should call checkValidity with correct param', () => {
+    const { sut, cpfValidatorStub } = makeSut()
+    const checkValiditySpy = jest.spyOn(cpfValidatorStub, 'checkValidity')
+
+    const httpRequest = {
+      body: {
+        name: 'any_name',
+        cpf: '999.999.999-99',
+        birthDate: '01/01/1994'
+      }
+    }
+    sut.handle(httpRequest)
+    expect(checkValiditySpy).toHaveBeenCalledWith(httpRequest.body.cpf)
+  })
 })
