@@ -6,3 +6,10 @@ export const badRequest = (error: Error): HttpResponse => {
     body: error
   }
 }
+
+export const invalidCpf = (): HttpResponse => {
+  return {
+    statusCode: 422,
+    body: new Error('Invalid CPF')
+  }
+}
