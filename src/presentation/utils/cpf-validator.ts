@@ -47,5 +47,7 @@ export class CpfValidator implements CpfValidatorInterface {
 
     const secondDigitIsValid = this.checkDigit(checkSecondDigitCpfArray, secondDigitToVerificador)
     if (!secondDigitIsValid) return false
+
+    return true
   }
 }
