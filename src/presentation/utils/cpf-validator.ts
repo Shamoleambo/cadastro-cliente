@@ -41,5 +41,11 @@ export class CpfValidator implements CpfValidatorInterface {
 
     const firstDigitIsValid = this.checkDigit(checkFirstDigitCpfArray, firstDigitToVerificador)
     if (!firstDigitIsValid) return false
+
+    const checkSecondDigitCpfArray = completeCpfArray.slice(0, completeCpfArray.length - 1)
+    const secondDigitToVerificador = completeCpfArray[completeCpfArray.length - 1]
+
+    const secondDigitIsValid = this.checkDigit(checkSecondDigitCpfArray, secondDigitToVerificador)
+    if (!secondDigitIsValid) return false
   }
 }
