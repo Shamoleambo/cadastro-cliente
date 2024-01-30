@@ -32,4 +32,12 @@ describe('CpfValidator', () => {
     const isValid = sut.checkValidity(invalidCpf)
     expect(isValid).toBe(false)
   })
+
+  test('should return true if cpf is valid', () => {
+    const sut = new CpfValidator()
+
+    const invalidCpf = '12345678909'
+    const isValid = sut.checkValidity(invalidCpf)
+    expect(isValid).toBe(true)
+  })
 })
