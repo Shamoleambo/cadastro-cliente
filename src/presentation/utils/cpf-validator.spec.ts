@@ -24,4 +24,12 @@ describe('CpfValidator', () => {
     const isValid = sut.checkValidity(invalidCpf)
     expect(isValid).toBe(false)
   })
+
+  test('should return false if second dígito verificador is incorrect', () => {
+    const sut = new CpfValidator()
+
+    const invalidCpf = '12345678900'
+    const isValid = sut.checkValidity(invalidCpf)
+    expect(isValid).toBe(false)
+  })
 })
