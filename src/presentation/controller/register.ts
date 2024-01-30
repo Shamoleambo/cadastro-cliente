@@ -5,8 +5,8 @@ import { MissingParamError } from '../../errors/missing-param-error'
 import { badRequest, invalidCpf, serverError } from '../helpers/http-helper'
 
 export class RegisterController {
-  private readonly cpfValidator
-  private readonly addClient
+  private readonly cpfValidator: CpfValidator
+  private readonly addClient: AddClient
 
   constructor (cpfValidator: CpfValidator, addClient: AddClient) {
     this.cpfValidator = cpfValidator
@@ -26,7 +26,11 @@ export class RegisterController {
       const isValid = this.cpfValidator.checkValidity(cpf)
       if (!isValid) return invalidCpf()
 
-      await this.addClient({ name, cpf, birthDate })
+      const clientCreated = await this.addClient.add({ name, cpf, birthDate })
+      return {
+        statusCode: 201,
+        body: clientCreated
+      }
     } catch (error) {
       return serverError()
     }
