@@ -10,6 +10,11 @@ describe('Client Mongo Repository', () => {
     await MongoHelper.disconnect()
   })
 
+  beforeEach(async () => {
+    const clientCollection = MongoHelper.getCollection('clients')
+    await clientCollection.deleteMany({})
+  })
+
   test('should return a client on success', async () => {
     const sut = new ClientMongoRepository()
     const client = await sut.add({
