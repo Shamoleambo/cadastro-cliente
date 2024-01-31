@@ -7,7 +7,8 @@
     "prepare": "husky",
     "test": "jest",
     "test:staged": "jest --passWithNoTests",
-    "test:dev": "jest --watchAll"
+    "test:dev": "jest --watchAll --runInBand",
+    "test:debug": "jest --verbose --watchAll --runInBand"
   },
   "keywords": [],
   "author": "",
