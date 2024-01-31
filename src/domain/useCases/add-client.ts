@@ -7,5 +7,5 @@ export interface AddClientModel {
 }
 
 export interface AddClient {
-  add: (client: AddClientModel) => Promise<ClientModel>
+  addClient: (client: AddClientModel) => Promise<ClientModel>
 }

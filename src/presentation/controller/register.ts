@@ -26,7 +26,7 @@ export class RegisterController {
       const isValid = this.cpfValidator.checkValidity(cpf)
       if (!isValid) return invalidCpf()
 
-      const clientCreated = await this.addClient.add({ name, cpf, birthDate })
+      const clientCreated = await this.addClient.addClient({ name, cpf, birthDate })
       return {
         statusCode: 201,
         body: clientCreated

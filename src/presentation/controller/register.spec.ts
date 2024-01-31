@@ -7,7 +7,7 @@ import { ServerError } from '../../errors/server-error'
 
 const makeAddClientStub = (): AddClient => {
   class AddClientStub implements AddClient {
-    async add (client: AddClientModel): Promise<ClientModel> {
+    async addClient (client: AddClientModel): Promise<ClientModel> {
       const fakeClient = {
         id: 'fake_id',
         name: 'fake_name',
@@ -122,7 +122,7 @@ describe('RegisterController', () => {
 
   test('should return 500 if AddClient throws', async () => {
     const { sut, addClientStub } = makeSut()
-    jest.spyOn(addClientStub, 'add').mockImplementationOnce(async () => {
+    jest.spyOn(addClientStub, 'addClient').mockImplementationOnce(async () => {
       return await new Promise((resolve, reject) => { reject(new Error('Database Error')) })
     })
 
