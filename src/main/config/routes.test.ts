@@ -20,7 +20,7 @@ describe('Router', () => {
     await request(app).post('/api/register')
       .send({
         name: 'any_name',
-        cpf: '12345678901',
+        cpf: '11111111111',
         birthDate: '01/01/1994'
       })
       .expect(201)

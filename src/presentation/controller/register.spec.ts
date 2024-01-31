@@ -143,7 +143,7 @@ describe('RegisterController', () => {
     const httpRequest = {
       body: {
         name: 'valid_name',
-        cpf: '999.999.999-99',
+        cpf: '111.111.111-11',
         birthDate: '01/01/1994'
       }
     }
