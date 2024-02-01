@@ -15,7 +15,7 @@ describe('Client Mongo Repository', () => {
     await clientCollection.deleteMany({})
   })
 
-  test('should return a client on success', async () => {
+  test('should return a client on success addition', async () => {
     const sut = new ClientMongoRepository()
     const client = await sut.add({
       name: 'any_name',
@@ -27,6 +27,22 @@ describe('Client Mongo Repository', () => {
     expect(client.id).toBeTruthy()
     expect(client.name).toBe('any_name')
     expect(client.cpf).toBe('12345678901')
+    expect(client.birthDate).toBe('01/01/1994')
+  })
+
+  test('should return a client when cpf is provided', async () => {
+    const sut = new ClientMongoRepository()
+    await sut.add({
+      name: 'any_name',
+      cpf: '11111111111',
+      birthDate: '01/01/1994'
+    })
+    const client = await sut.get('11111111111')
+
+    expect(client).toBeTruthy()
+    expect(client.id).toBeTruthy()
+    expect(client.name).toBe('any_name')
+    expect(client.cpf).toBe('11111111111')
     expect(client.birthDate).toBe('01/01/1994')
   })
 })
