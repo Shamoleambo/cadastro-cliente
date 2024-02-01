@@ -20,7 +20,6 @@ export class GetSingleClient implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const cpf = httpRequest.body.cpf
-      console.log(cpf)
       if (!cpf) return badRequest(new MissingParamError('cpf'))
 
       const isValid = this.cpfValidator.checkValidity(cpf)
