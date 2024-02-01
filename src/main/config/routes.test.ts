@@ -40,4 +40,16 @@ describe('Router', () => {
       })
       .expect(200)
   })
+
+  test('should get all clients', async () => {
+    await request(app).post('/api/register')
+      .send({
+        name: 'any_name',
+        cpf: '111.111.111-11',
+        birthDate: '01/01/1994'
+      })
+
+    await request(app).get('/api/clients')
+      .expect(200)
+  })
 })
