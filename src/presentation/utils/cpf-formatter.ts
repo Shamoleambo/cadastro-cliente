@@ -3,5 +3,8 @@ export class CpfFormatter {
     const maskedFormat = /^\d\d\d\.\d\d\d\.\d\d\d-\d\d$/
     const matchMaskedFormat = maskedFormat.test(cpf)
     if (!matchMaskedFormat) return cpf
+
+    const numbersArray = cpf.split(/\.|-/)
+    return numbersArray.join('')
   }
 }
