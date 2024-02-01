@@ -2,16 +2,19 @@ import type { HttpRequest, HttpResponse } from '../../protocols/http-protocol'
 import type { CpfValidator } from '../../protocols/cpf-validator'
 import type { AddClient } from '../../../domain/useCases/add-client'
 import type { Controller } from '../../protocols/controller-protocol'
+import type { CpfFormatter } from '../../utils/cpf-formatter'
 import { MissingParamError } from '../../../errors/missing-param-error'
 import { badRequest, invalidCpf, serverError } from '../../helpers/http-helper'
 
 export class RegisterController implements Controller {
   private readonly cpfValidator: CpfValidator
   private readonly addClient: AddClient
+  private readonly cpfFormatter: CpfFormatter
 
-  constructor (cpfValidator: CpfValidator, addClient: AddClient) {
+  constructor (cpfValidator: CpfValidator, addClient: AddClient, cpfFormatter: CpfFormatter) {
     this.cpfValidator = cpfValidator
     this.addClient = addClient
+    this.cpfFormatter = cpfFormatter
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -27,7 +30,8 @@ export class RegisterController implements Controller {
       const isValid = this.cpfValidator.checkValidity(cpf)
       if (!isValid) return invalidCpf()
 
-      const clientCreated = await this.addClient.addClient({ name, cpf, birthDate })
+      const formattedCpf = this.cpfFormatter.format(cpf)
+      const clientCreated = await this.addClient.addClient({ name, cpf: formattedCpf, birthDate })
       return {
         statusCode: 201,
         body: clientCreated

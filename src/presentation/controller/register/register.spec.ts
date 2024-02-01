@@ -1,9 +1,20 @@
 import type { CpfValidator } from '../../protocols/cpf-validator'
 import type { AddClient, AddClientModel } from '../../../domain/useCases/add-client'
 import type { ClientModel } from '../../../domain/models/client-model'
+import type { CpfFormatter } from '../../protocols/cpf-formatter'
 import { RegisterController } from './register'
 import { MissingParamError } from '../../../errors/missing-param-error'
 import { ServerError } from '../../../errors/server-error'
+
+const makeCpfFormatterStub = (): CpfFormatter => {
+  class CpfFormatterStub implements CpfFormatter {
+    format (cpf: string): string {
+      return '11111111111'
+    }
+  }
+
+  return new CpfFormatterStub()
+}
 
 const makeAddClientStub = (): AddClient => {
   class AddClientStub implements AddClient {
@@ -39,9 +50,10 @@ interface SutTypes {
 }
 
 const makeSut = (): SutTypes => {
+  const cpfFormatter = makeCpfFormatterStub()
   const addClientStub = makeAddClientStub()
   const cpfValidatorStub = makeCpfValidatorStub()
-  const sut = new RegisterController(cpfValidatorStub, addClientStub)
+  const sut = new RegisterController(cpfValidatorStub, addClientStub, cpfFormatter)
   return { sut, cpfValidatorStub, addClientStub }
 }
 
@@ -50,7 +62,7 @@ describe('RegisterController', () => {
     const { sut } = makeSut()
     const httpRequest = {
       body: {
-        cpf: '999.999.999-00',
+        cpf: '111.111.111-11',
         birthDate: '01/01/1994'
       }
     }
@@ -79,7 +91,7 @@ describe('RegisterController', () => {
     const httpRequest = {
       body: {
         name: 'valid_name',
-        cpf: '999.999.999-00'
+        cpf: '111.111.111-11'
       }
     }
 
@@ -95,7 +107,7 @@ describe('RegisterController', () => {
     const httpRequest = {
       body: {
         name: 'valid_name',
-        cpf: '000.000.000-00',
+        cpf: '111.111.111-10',
         birthDate: '01/01/1994'
       }
     }
@@ -112,7 +124,7 @@ describe('RegisterController', () => {
     const httpRequest = {
       body: {
         name: 'any_name',
-        cpf: '999.999.999-99',
+        cpf: '111.111.111-11',
         birthDate: '01/01/1994'
       }
     }
@@ -129,7 +141,7 @@ describe('RegisterController', () => {
     const httpRequest = {
       body: {
         name: 'any_name',
-        cpf: '999.999.999-00',
+        cpf: '111.111.111-11',
         birthDate: '01/01/1994'
       }
     }
