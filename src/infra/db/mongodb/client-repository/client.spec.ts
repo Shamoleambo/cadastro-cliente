@@ -45,4 +45,17 @@ describe('Client Mongo Repository', () => {
     expect(client.cpf).toBe('11111111111')
     expect(client.birthDate).toBe('01/01/1994')
   })
+
+  test('should return all clients', async () => {
+    const sut = new ClientMongoRepository()
+    await sut.add({
+      name: 'any_name',
+      cpf: '11111111111',
+      birthDate: '01/01/1994'
+    })
+    const clients = await sut.getAll()
+
+    expect(clients).toBeTruthy()
+    expect(clients.length).toBe(1)
+  })
 })
