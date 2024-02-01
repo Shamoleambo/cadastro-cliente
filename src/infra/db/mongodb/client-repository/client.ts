@@ -1,4 +1,4 @@
-import type { AddClientRepository } from '../../../../data/protocols/add-account-repository'
+import type { AddClientRepository } from '../../../../data/protocols/add-client-repository'
 import type { ClientModel } from '../../../../domain/models/client-model'
 import type { AddClientModel } from '../../../../domain/useCases/add-client'
 import { MongoHelper } from '../helpers/mongo-helper'
