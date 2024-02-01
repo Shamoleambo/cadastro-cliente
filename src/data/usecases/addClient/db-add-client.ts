@@ -1,6 +1,6 @@
 import type { ClientModel } from '../../../domain/models/client-model'
 import type { AddClient, AddClientModel } from '../../../domain/useCases/add-client'
-import type { AddClientRepository } from '../../protocols/add-account-repository'
+import type { AddClientRepository } from '../../protocols/add-client-repository'
 
 export class DbAddClient implements AddClient {
   private readonly addClientRepository: AddClientRepository
@@ -10,7 +10,7 @@ export class DbAddClient implements AddClient {
   }
 
   async addClient (clientData: AddClientModel): Promise<ClientModel> {
-    const account = await this.addClientRepository.add(clientData)
-    return account
+    const client = await this.addClientRepository.add(clientData)
+    return client
   }
 }
