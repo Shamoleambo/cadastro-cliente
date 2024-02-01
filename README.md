@@ -7,7 +7,7 @@ Essa é uma aplicação que recebe o nome, CPF e data de nascimento de um client
 <ul>
   <li>Typescript</li>
   <li>MongoDB</li>
-  <li>Jset</li>
+  <li>Jest</li>
   <li>Express</li>
 </ul>
 
@@ -42,4 +42,21 @@ GET / /api/client
 ```
 GET / /api/clients?p=
 ```
+## Como rodar a aplicação localmente:
+```
+npm start
+```
+## Como rodar os testes:
+```
+npm test
+npm run test:coverage
+npm run test:unit
+npm run test:integration
+```
+
+
+
+
+
+
 
