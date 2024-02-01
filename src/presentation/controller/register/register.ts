@@ -1,9 +1,9 @@
-import type { HttpRequest, HttpResponse } from '../protocols/http-protocol'
-import type { CpfValidator } from '../protocols/cpf-validator'
-import type { AddClient } from '../../domain/useCases/add-client'
-import type { Controller } from '../protocols/controller-protocol'
-import { MissingParamError } from '../../errors/missing-param-error'
-import { badRequest, invalidCpf, serverError } from '../helpers/http-helper'
+import type { HttpRequest, HttpResponse } from '../../protocols/http-protocol'
+import type { CpfValidator } from '../../protocols/cpf-validator'
+import type { AddClient } from '../../../domain/useCases/add-client'
+import type { Controller } from '../../protocols/controller-protocol'
+import { MissingParamError } from '../../../errors/missing-param-error'
+import { badRequest, invalidCpf, serverError } from '../../helpers/http-helper'
 
 export class RegisterController implements Controller {
   private readonly cpfValidator: CpfValidator

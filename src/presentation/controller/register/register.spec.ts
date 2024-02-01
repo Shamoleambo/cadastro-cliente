@@ -1,9 +1,9 @@
-import type { CpfValidator } from '../protocols/cpf-validator'
-import type { AddClient, AddClientModel } from '../../domain/useCases/add-client'
-import type { ClientModel } from '../../domain/models/client-model'
+import type { CpfValidator } from '../../protocols/cpf-validator'
+import type { AddClient, AddClientModel } from '../../../domain/useCases/add-client'
+import type { ClientModel } from '../../../domain/models/client-model'
 import { RegisterController } from './register'
-import { MissingParamError } from '../../errors/missing-param-error'
-import { ServerError } from '../../errors/server-error'
+import { MissingParamError } from '../../../errors/missing-param-error'
+import { ServerError } from '../../../errors/server-error'
 
 const makeAddClientStub = (): AddClient => {
   class AddClientStub implements AddClient {

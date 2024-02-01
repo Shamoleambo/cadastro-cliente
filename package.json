@@ -7,7 +7,7 @@
     "start": "sucrase-node src/main/server.ts",
     "dev": "nodemon src/main/server.ts",
     "prepare": "husky",
-    "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
+    "test": "jest --coverage --passWithNoTests --silent --noStackTrace --runInBand",
     "test:unit": "npm test -- --watchAll -c jest-unit-config.js",
     "test:integration": "npm test -- --watchAll -c jest-integration-config.js",
     "test:staged": "jest --passWithNoTests",
