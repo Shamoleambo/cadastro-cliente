@@ -83,4 +83,21 @@ describe('GetSingleClient', () => {
     expect(httpResponse.statusCode).toBe(500)
     expect(httpResponse.body).toEqual(new ServerError())
   })
+
+  test('should return 200 if success', async () => {
+    const { sut } = makeSut()
+    const httpRequest = {
+      body: {
+        cpf: '111.111.111-11'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse.statusCode).toBe(200)
+    expect(httpResponse.body).toEqual({
+      id: 'valid_id',
+      name: 'any_name',
+      cpf: '111.111.111-11',
+      birthDate: '01/01/1994'
+    })
+  })
 })
