@@ -10,7 +10,7 @@ export class DbGetAllClients implements GetClients {
   }
 
   async getAllClients (): Promise<ClientModel[]> {
-    const clients = await this.getAllClientsRepository.get()
+    const clients = await this.getAllClientsRepository.getAll()
     return clients
   }
 }

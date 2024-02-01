@@ -1,10 +1,11 @@
 import type { AddClientRepository } from '../../../../data/protocols/add-client-repository'
+import type { GetAllClientsRepository } from '../../../../data/protocols/get-all-clients-repository'
 import type { GetClientRepository } from '../../../../data/protocols/get-client-repository'
 import type { ClientModel } from '../../../../domain/models/client-model'
 import type { AddClientModel } from '../../../../domain/useCases/add-client'
 import { MongoHelper } from '../helpers/mongo-helper'
 
-export class ClientMongoRepository implements AddClientRepository, GetClientRepository {
+export class ClientMongoRepository implements AddClientRepository, GetClientRepository, GetAllClientsRepository {
   async add (clientData: AddClientModel): Promise<ClientModel> {
     const clientCollection = MongoHelper.getCollection('clients')
     const result = await clientCollection.insertOne(clientData)
@@ -21,5 +22,17 @@ export class ClientMongoRepository implements AddClientRepository, GetClientRepo
     const { _id, name, birthDate } = await clientCollection.findOne({ cpf })
     const client = { id: _id.toString(), name, cpf, birthDate }
     return client
+  }
+
+  async getAll (): Promise<ClientModel[]> {
+    const clientCollection = MongoHelper.getCollection('clients')
+
+    const clientsFromDb = await clientCollection.find({}).toArray()
+    const clients = clientsFromDb.map(client => {
+      const { _id, name, cpf, birthDate } = client
+      const newClient = { id: _id.toString(), name, cpf, birthDate }
+      return newClient
+    })
+    return clients
   }
 }

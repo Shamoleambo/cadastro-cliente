@@ -4,7 +4,7 @@ import { DbGetAllClients } from './db-get-clients'
 
 const makeSut = (): DbGetAllClients => {
   class GetAllClientsRepositoryStub implements GetAllClientsRepository {
-    async get (): Promise<ClientModel[]> {
+    async getAll (): Promise<ClientModel[]> {
       const fakeClients = [{
         id: 'valid_id',
         name: 'any_name',
