@@ -16,7 +16,7 @@ describe('Router', () => {
     await clientCollection.deleteMany({})
   })
 
-  test('should return a client on success', async () => {
+  test('should return a client for registration on success', async () => {
     await request(app).post('/api/register')
       .send({
         name: 'any_name',
@@ -24,5 +24,20 @@ describe('Router', () => {
         birthDate: '01/01/1994'
       })
       .expect(201)
+  })
+
+  test('should get a client by cpf on success', async () => {
+    await request(app).post('/api/register')
+      .send({
+        name: 'any_name',
+        cpf: '11111111111',
+        birthDate: '01/01/1994'
+      })
+
+    await request(app).get('/api/client')
+      .send({
+        cpf: '11111111111'
+      })
+      .expect(200)
   })
 })
