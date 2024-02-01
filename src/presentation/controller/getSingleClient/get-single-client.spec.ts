@@ -7,7 +7,7 @@ import type { GetClient } from '../../../domain/useCases/get-client'
 
 const makeGetClientStub = (): GetClient => {
   class GetClientStub implements GetClient {
-    async getClient (): Promise<ClientModel> {
+    async getClientByCpf (cpf: string): Promise<ClientModel> {
       const fakeClient = {
         id: 'valid_id',
         name: 'any_name',
@@ -72,7 +72,7 @@ describe('GetSingleClient', () => {
 
   test('should return 500 if GetClient throws', async () => {
     const { sut, getClientStub } = makeSut()
-    jest.spyOn(getClientStub, 'getClient').mockRejectedValueOnce(new ServerError())
+    jest.spyOn(getClientStub, 'getClientByCpf').mockRejectedValueOnce(new ServerError())
 
     const httpRequest = {
       body: {

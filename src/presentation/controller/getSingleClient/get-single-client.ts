@@ -22,7 +22,7 @@ export class GetSingleClient implements Controller {
       const isValid = this.cpfValidator.checkValidity(cpf)
       if (!isValid) return invalidCpf()
 
-      const client = await this.getClient.getClient()
+      const client = await this.getClient.getClientByCpf(cpf)
       return {
         statusCode: 200,
         body: client
