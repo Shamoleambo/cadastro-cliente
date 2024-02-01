@@ -24,10 +24,15 @@ export class ClientMongoRepository implements AddClientRepository, GetClientRepo
     return client
   }
 
-  async getAll (): Promise<ClientModel[]> {
+  async getAll (page: number): Promise<ClientModel[]> {
     const clientCollection = MongoHelper.getCollection('clients')
+    const CLIENTS_PER_PAGE = 3
 
-    const clientsFromDb = await clientCollection.find({}).toArray()
+    const clientsFromDb = await clientCollection
+      .find({})
+      .skip(page * CLIENTS_PER_PAGE)
+      .limit(3)
+      .toArray()
     const clients = clientsFromDb.map(client => {
       const { _id, name, cpf, birthDate } = client
       const newClient = { id: _id.toString(), name, cpf, birthDate }

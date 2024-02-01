@@ -1,5 +1,6 @@
 export interface HttpRequest {
   body?: any
+  pageQuery?: number
 }
 
 export interface HttpResponse {

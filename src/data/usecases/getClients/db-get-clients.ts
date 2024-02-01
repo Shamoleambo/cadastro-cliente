@@ -9,8 +9,8 @@ export class DbGetAllClients implements GetClients {
     this.getAllClientsRepository = getAllClientsRepository
   }
 
-  async getAllClients (): Promise<ClientModel[]> {
-    const clients = await this.getAllClientsRepository.getAll()
+  async getAllClients (page: number): Promise<ClientModel[]> {
+    const clients = await this.getAllClientsRepository.getAll(page)
     return clients
   }
 }
