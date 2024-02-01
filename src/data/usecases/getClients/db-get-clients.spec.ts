@@ -24,7 +24,7 @@ const makeSut = (): DbGetAllClients => {
 describe('DbGetAllClients Usecase', () => {
   test('should return all clients on success', async () => {
     const sut = makeSut()
-    const client = await sut.getAllClients()
+    const client = await sut.getAllClients(0)
 
     expect(client).toEqual([{
       id: 'valid_id',
