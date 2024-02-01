@@ -12,8 +12,11 @@ export class GetAllClients implements Controller {
 
   async handle (): Promise<HttpResponse> {
     try {
-      await this.getClients.getAllClients()
-      return await new Promise((resolve) => { resolve(null) })
+      const clients = await this.getClients.getAllClients()
+      return {
+        statusCode: 200,
+        body: clients
+      }
     } catch (error) {
       return serverError()
     }
