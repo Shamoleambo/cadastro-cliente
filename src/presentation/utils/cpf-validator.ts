@@ -1,9 +1,9 @@
 import type { CpfValidator as CpfValidatorInterface } from '../protocols/cpf-validator'
 
 export class CpfValidator implements CpfValidatorInterface {
-  private checkDigit (cpfSlice: string[], digit: string): boolean {
+  private checkDigit (cpfSlice: string, digit: string): boolean {
     const multiplyArray = cpfSlice.length === 9 ? [10, 9, 8, 7, 6, 5, 4, 3, 2] : [11, 10, 9, 8, 7, 6, 5, 4, 3, 2]
-    const productsArray = cpfSlice.map((digit, index) => +digit * multiplyArray[index])
+    const productsArray = cpfSlice.split('').map((digit, index) => +digit * multiplyArray[index])
 
     const sum = productsArray.reduce((acc, product) => {
       return acc + product
@@ -29,21 +29,23 @@ export class CpfValidator implements CpfValidatorInterface {
     const matchesNumbersOnly = numbersOnlyRegex.test(cpf)
     if (!matchesMask && !matchesNumbersOnly) return false
 
-    let completeCpfArray
+    let cpfString
     if (matchesMask) {
-      completeCpfArray = cpf.split('.' || '-')
+      const completeCpfArray = cpf.split(/\.|-/)
+      cpfString = completeCpfArray.join('')
     } else if (matchesNumbersOnly) {
-      completeCpfArray = cpf.split('')
+      const completeCpfArray = cpf.split('')
+      cpfString = completeCpfArray.join('')
     }
 
-    const checkFirstDigitCpfArray = completeCpfArray.slice(0, completeCpfArray.length - 2)
-    const firstDigitToVerificador = completeCpfArray[completeCpfArray.length - 2]
+    const checkFirstDigitCpfArray = cpfString.slice(0, cpfString.length - 2)
+    const firstDigitToVerificador = cpfString[cpfString.length - 2]
 
     const firstDigitIsValid = this.checkDigit(checkFirstDigitCpfArray, firstDigitToVerificador)
     if (!firstDigitIsValid) return false
 
-    const checkSecondDigitCpfArray = completeCpfArray.slice(0, completeCpfArray.length - 1)
-    const secondDigitToVerificador = completeCpfArray[completeCpfArray.length - 1]
+    const checkSecondDigitCpfArray = cpfString.slice(0, cpfString.length - 1)
+    const secondDigitToVerificador = cpfString[cpfString.length - 1]
 
     const secondDigitIsValid = this.checkDigit(checkSecondDigitCpfArray, secondDigitToVerificador)
     if (!secondDigitIsValid) return false

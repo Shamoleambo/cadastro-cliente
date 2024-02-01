@@ -20,7 +20,7 @@ describe('Router', () => {
     await request(app).post('/api/register')
       .send({
         name: 'any_name',
-        cpf: '11111111111',
+        cpf: '111.111.111-11',
         birthDate: '01/01/1994'
       })
       .expect(201)
@@ -30,7 +30,7 @@ describe('Router', () => {
     await request(app).post('/api/register')
       .send({
         name: 'any_name',
-        cpf: '11111111111',
+        cpf: '111.111.111-11',
         birthDate: '01/01/1994'
       })
 
