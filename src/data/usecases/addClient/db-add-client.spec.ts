@@ -1,6 +1,6 @@
-import type { ClientModel } from '../../domain/models/client-model'
-import type { AddClientModel } from '../../domain/useCases/add-client'
-import type { AddClientRepository } from '../protocols/add-account-repository'
+import type { ClientModel } from '../../../domain/models/client-model'
+import type { AddClientModel } from '../../../domain/useCases/add-client'
+import type { AddClientRepository } from '../../protocols/add-account-repository'
 import { DbAddClient } from './db-add-client'
 
 const makeSut = (): DbAddClient => {
