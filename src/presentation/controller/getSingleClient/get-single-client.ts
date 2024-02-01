@@ -4,14 +4,17 @@ import type { GetClient } from '../../../domain/useCases/get-client'
 import type { Controller } from '../../protocols/controller-protocol'
 import type { CpfValidator } from '../../protocols/cpf-validator'
 import type { HttpRequest, HttpResponse } from '../../protocols/http-protocol'
+import type { CpfFormatter } from '../../protocols/cpf-formatter'
 
 export class GetSingleClient implements Controller {
   private readonly cpfValidator: CpfValidator
   private readonly getClient: GetClient
+  private readonly cpfFormatter: CpfFormatter
 
-  constructor (cpfValidator: CpfValidator, getClient: GetClient) {
+  constructor (cpfValidator: CpfValidator, getClient: GetClient, cpfFormatter: CpfFormatter) {
     this.cpfValidator = cpfValidator
     this.getClient = getClient
+    this.cpfFormatter = cpfFormatter
   }
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -23,7 +26,9 @@ export class GetSingleClient implements Controller {
       const isValid = this.cpfValidator.checkValidity(cpf)
       if (!isValid) return invalidCpf()
 
-      const client = await this.getClient.getClientByCpf(cpf)
+      const formattedCpf = this.cpfFormatter.format(cpf)
+
+      const client = await this.getClient.getClientByCpf(formattedCpf)
       return {
         statusCode: 200,
         body: client

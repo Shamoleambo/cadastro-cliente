@@ -4,6 +4,17 @@ import { ServerError } from '../../../errors/server-error'
 import type { CpfValidator } from '../../protocols/cpf-validator'
 import type { ClientModel } from '../../../domain/models/client-model'
 import type { GetClient } from '../../../domain/useCases/get-client'
+import type { CpfFormatter } from '../../protocols/cpf-formatter'
+
+const makeCpfFormatterStub = (): CpfFormatter => {
+  class CpfFormatterStub implements CpfFormatter {
+    format (cpf: string): string {
+      return '11111111111'
+    }
+  }
+
+  return new CpfFormatterStub()
+}
 
 const makeGetClientStub = (): GetClient => {
   class GetClientStub implements GetClient {
@@ -37,9 +48,10 @@ interface SutTypes {
 }
 
 const makeSut = (): SutTypes => {
+  const cpfFormatter = makeCpfFormatterStub()
   const getClientStub = makeGetClientStub()
   const cpfValidatorStub = makeCpfValidatorStub()
-  const sut = new GetSingleClient(cpfValidatorStub, getClientStub)
+  const sut = new GetSingleClient(cpfValidatorStub, getClientStub, cpfFormatter)
   return { sut, cpfValidatorStub, getClientStub }
 }
 
