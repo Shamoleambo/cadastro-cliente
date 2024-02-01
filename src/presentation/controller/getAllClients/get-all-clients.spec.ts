@@ -1,7 +1,7 @@
 import type { ClientModel } from '../../../domain/models/client-model'
 import type { GetClients } from '../../../domain/useCases/get-clients'
 import { ServerError } from '../../../errors/server-error'
-import { GetAllClients } from './get-clients'
+import { GetAllClients } from './get-all-clients'
 
 interface SutTypes {
   sut: GetAllClients
