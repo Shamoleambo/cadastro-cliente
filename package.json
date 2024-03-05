@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "sucrase-node src/main/server.ts",
+    "start": "node dist/main/server.js",
+    "dev:start": "sucrase-node src/main/server.ts",
     "dev": "nodemon src/main/server.ts",
+    "build": "tsc",
     "prepare": "husky",
     "test": "jest --passWithNoTests --silent --noStackTrace --runInBand",
     "test:coverage": "jest --passWithNoTests --coverage --noStackTrace --runInBand",
