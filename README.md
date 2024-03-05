@@ -3,6 +3,9 @@
 ## Descrição:
 Essa é uma aplicação que recebe o nome, CPF e data de nascimento de um cliente e realiza seu cadastro.
 
+## Endereço do Deploy:
+https://cadastro-cliente-5ypo.onrender.com
+
 ## Principais tecnologias usadas:
 <ul>
   <li>Typescript</li>
