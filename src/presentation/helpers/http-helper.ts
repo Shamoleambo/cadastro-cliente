@@ -4,14 +4,14 @@ import { ServerError } from '../../errors/server-error'
 export const badRequest = (error: Error): HttpResponse => {
   return {
     statusCode: 400,
-    body: error
+    body: { message: error.message }
   }
 }
 
 export const invalidCpf = (): HttpResponse => {
   return {
     statusCode: 422,
-    body: new Error('Invalid CPF')
+    body: { message: 'Invalid CPF' }
   }
 }
 

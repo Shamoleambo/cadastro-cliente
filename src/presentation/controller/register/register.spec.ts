@@ -69,7 +69,7 @@ describe('RegisterController', () => {
 
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('name'))
+    expect(httpResponse.body).toEqual({ message: new MissingParamError('name').message })
   })
 
   test('should return 400 no CPF is provided', async () => {
@@ -83,7 +83,7 @@ describe('RegisterController', () => {
 
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('cpf'))
+    expect(httpResponse.body).toEqual({ message: new MissingParamError('cpf').message })
   })
 
   test('should return 400 if no birthDate is provided', async () => {
@@ -97,7 +97,7 @@ describe('RegisterController', () => {
 
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('birthDate'))
+    expect(httpResponse.body).toEqual({ message: new MissingParamError('birthDate').message })
   })
 
   test('should return 422 if an invalid CPF is provided', async () => {
@@ -114,7 +114,7 @@ describe('RegisterController', () => {
 
     const httpResponse = await sut.handle(httpRequest)
     expect(httpResponse.statusCode).toBe(422)
-    expect(httpResponse.body).toEqual(new Error('Invalid CPF'))
+    expect(httpResponse.body).toEqual({ message: 'Invalid CPF' })
   })
 
   test('should call checkValidity with correct param', async () => {

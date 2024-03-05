@@ -64,7 +64,7 @@ describe('GetSingleClient', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse.statusCode).toBe(400)
-    expect(httpResponse.body).toEqual(new MissingParamError('cpf'))
+    expect(httpResponse.body).toEqual({ message: new MissingParamError('cpf').message })
   })
 
   test('should return 400 if an invalid CPF is provided', async () => {
@@ -79,7 +79,7 @@ describe('GetSingleClient', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse.statusCode).toBe(422)
-    expect(httpResponse.body).toEqual(new Error('Invalid CPF'))
+    expect(httpResponse.body).toEqual({ message: 'Invalid CPF' })
   })
 
   test('should return 500 if GetClient throws', async () => {
